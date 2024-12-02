@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Capture</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+</head>
+<body>
+    <video id="webCam" autoplay playsinline width="500" height="500"></video>
+    <canvas id="canvas"></canvas>
+    <a id="downloadLink" >SNAP</a>
+    <button id="close" >close</button>
+</body>
+
+<script>
+    $(document).ready(function () {
+        const $webCamElement = $("#webCam");
+        const $canvasElement = $("#canvas");
+        const $downloadLink = $("#downloadLink");
+
+        const webCam = new Webcam($webCamElement[0], 'user', $canvasElement[0]);
+
+        webCam.start().catch(function (err) {
+            console.error("Webcam error:", err);
+        });
+
+        $downloadLink.on("click", function () {
+            const picture = webCam.snap();
+            $downloadLink.attr("href", picture);
+            webCam.stop();
+            // $webCamElement.hide();
+        });
+
+    });
+</script>
+</html>
